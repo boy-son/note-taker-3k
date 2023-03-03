@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require ('path');
-
+const uniqid = require('uniqid');
 
 module.exports = (app) => {
     const noteData = fs.readFileSync(path.join(__dirname, '../db/db.json'));
@@ -11,7 +11,7 @@ app.get ('/api/notes', (req, res) => {
 });
 
 app.post('api/notes', (req,res) => {
-    const newNote = req.body;
+    const newNote = {title: req.body.title, text: req.body.text, id: uniqid()};
     noteDataArr.push(newNote);
     fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(noteDataArr));
     res.json(noteDataArr);
